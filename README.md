@@ -1,33 +1,52 @@
-# 📊 Instagram Data Engineering Pipeline
+# Instagram Data Engineering Pipeline 🚀
 
-A full end-to-end Data Engineering project built with Databricks and PySpark, following the Medallion Architecture (Bronze → Silver → Gold).
-The pipeline processes Instagram post data, performing ingestion, cleaning, transformations, and delivery of analytics-ready tables.
+**Status:** ✅ Completed
 
-# Technologies Used
--  Databricks
--  PySpark
--  Delta Lake
--  Medallion Architecture 
-----------------------------------------------------------
-## Pipeline Overview
+## 📖 Table of Contents  
+- [About the project](#about-the-project)  
+- [Technologies](#technologies)  
+- [Repository Structure](#repository-structure)  
+- [Pipeline Overview](#pipeline-overview)  
+- [Setup & Run](#setup--run)  
+- [Future Improvements](#future-improvements)  
+- [Author / Contact](#author--contact)  
 
-### Bronze
-- Raw data ingestion  
-- Basic normalization  
-- Writes Delta table  
+## About the project  
+This project builds an end-to-end data engineering pipeline using Databricks and PySpark, based on Instagram post data.  
+It processes raw data (Bronze), applies transformations and cleaning (Silver), and produces analytics-ready tables (Gold) — enabling social media analytics and insights generation.
 
-### Silver
-- Data cleaning & standardization  
-- Splitting and formatting date and time  
-- Casting correct types  
+## Technologies  
+- Databricks  
+- PySpark / Spark SQL  
+- Delta Lake  
+- Python 3.x  
 
-### Gold
-- Aggregated analytics  
-- Business-ready tables for insights  
-- Metrics for performance and engagement  
+## Repository Structure  
+/notebooks_clean # Cleaned notebooks / scripts
+/data # Raw data samples (if any)
+/docs # Documentation, diagrams
+/README.md # This file
 
-### ⭐ Key Features
-- Clean, modular ETL/ELT flow  
-- Real-world social media dataset  
-- Reproducible and scalable architecture  
-- Demonstrates good data engineering practices  
+
+## Pipeline Overview  
+- **Bronze**: raw data ingestion, normalization, and persistence as Delta table  
+- **Silver**: data cleaning, type casting, date/time parsing, standardization  
+- **Gold**: final analytics tables — ready for business insights  
+
+(Se quiser, adicione aqui um diagrama simple do fluxo.)
+
+## Setup & Run  
+1. Clone the repository  
+2. Import notebooks/scripts into Databricks  
+3. Configure your Spark/Databricks environment  
+4. Run pipeline in order: `Bronze → Silver → Gold`  
+5. Check resulting tables in catalog / workspace  
+
+## Future Improvements  
+- Add automated tests / data quality checks  
+- Parameterize pipeline (config file)  
+- Schedule with orchestration (Airflow/Jobs)  
+- Extend with more social media metrics / dashboards  
+
+## Author / Contact  
+Sam — [LinkedIn / E-mail / etc]  
