@@ -1,46 +1,28 @@
-# Databricks notebook source
-# MAGIC %md
-# MAGIC ## General Info
-# MAGIC | Info | Details |
-# MAGIC |-----------|--------|
-# MAGIC | Table Name | silver.instagram_silver|
-# MAGIC | Source | bronze.instagram_bronze|
-# MAGIC
-# MAGIC ## Latest Updates
-# MAGIC | Date | Develop by | Reason |
-# MAGIC |------|------------|--------|
-# MAGIC | 02/12/25 | Samuel Mendes | Notebook Creation |
+Databricks notebook source
 
-# COMMAND ----------
+## General Info
+| Info | Details |
+|-----------|--------|
+| Table Name | silver.instagram_silver|
+| Source | bronze.instagram_bronze|
+
+## Latest Updates
+| Date | Develop by | Reason |
+|------|------------|--------|
+| 02/12/25 | Samuel Mendes | Notebook Creation |
 
 #Librabries
 from pyspark.sql.functions import current_date, current_timestamp, expr, col, to_timestamp, to_date, date_format
 
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC #### Following the same line as bronze, we need to declare the name of the Database and the name of the table in the catalog, but this time we don't need the file path:
-
-# COMMAND ----------
+#Following the same line as bronze, we need to declare the name of the database and the name of the table in the catalogue, but this time we do not need the file path.:
 
 #Declaring names:
 database = 'silver'
 table = 'instagram_silver'
 
-# COMMAND ----------
+####Time to define the type of our columns
 
-# MAGIC %sql
-# MAGIC SELECT
-# MAGIC     *
-# MAGIC FROM
-# MAGIC   instagram_data.bronze.instagram_bronze;
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC #### Time to define the type of our columns
-
-# COMMAND ----------
+----------------------------------------
 
 df_instagram_data_tst = spark.sql(
     """
@@ -65,12 +47,9 @@ FROM instagram_data.bronze.instagram_bronze
 )
 display(df_instagram_data_tst)
 
-# COMMAND ----------
+--------------------------------
 
-# MAGIC %md
-# MAGIC #### Converting Upload_Date into a Proper Timestamp
-
-# COMMAND ----------
+####Converting Upload_Date into a Proper Timestamp
 
 from pyspark.sql.functions import col, to_timestamp
 
@@ -80,22 +59,18 @@ df_instagram_data_tst = df_instagram_data_tst.withColumn(
 )
 
 
-# COMMAND ----------
+----------------------------
 
-# MAGIC %md
-# MAGIC #### Tiny Adjustment on the Upload_Date column
+#### Tiny Adjustment on the Upload_Date column
 
-# COMMAND ----------
+----------------------------
 
 df_instagram_data_tst.display()
 
-# COMMAND ----------
+----------------------------
+#### Extracting Date and Time Columns
 
-# MAGIC %md
-# MAGIC #### Extracting Date and Time Columns
-
-# COMMAND ----------
-
+----------------------------
 #Splitting timestamp into separate, analytics-friendly fields
 from pyspark.sql.functions import col, to_timestamp, date_format
 
@@ -104,8 +79,7 @@ df_instagram_data_tst = df_instagram_data_tst.withColumn("Date", date_format(col
 
 
 
-# COMMAND ----------
-
+----------------------------
 # Cleaning the table:
 
 df_instagram_data_tst = df_instagram_data_tst.drop(
@@ -115,13 +89,11 @@ df_instagram_data_tst = df_instagram_data_tst.drop(
 )
 
 
-# COMMAND ----------
+----------------------------
 
-# MAGIC %md
-# MAGIC #### Reordering Columns
+#### Reordering Columns
 
-# COMMAND ----------
-
+----------------------------
 first_col = df_instagram_data_tst.columns[0]
 
 df_instagram_data_tst = df_instagram_data_tst.select(
@@ -132,25 +104,21 @@ df_instagram_data_tst = df_instagram_data_tst.select(
 )
 
 
-# COMMAND ----------
-
+----------------------------
 df_instagram_data_tst.display()
 
-# COMMAND ----------
-
+----------------------------
 # Adding two columns for better management and data governance
 from pyspark.sql.functions import current_date, current_timestamp, expr
 df_instagram_data_tst = df_instagram_data_tst.withColumn("load_date", current_date())
 df_instagram_data_tst = df_instagram_data_tst.withColumn("load_date_time", expr("current_timestamp() - INTERVAL 3 HOURS"))
 
-# COMMAND ----------
-
+----------------------------
 df_instagram = df_instagram_data_tst
 
 df_instagram.display()
 
-# COMMAND ----------
-
+----------------------------
 df_instagram.write \
     .format("delta") \
     .mode("overwrite") \
