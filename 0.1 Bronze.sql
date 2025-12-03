@@ -1,52 +1,35 @@
 -- Databricks notebook source
--- MAGIC %md
--- MAGIC ## Bronze Layer
+## Bronze Layer
 
--- COMMAND ----------
+%python
+#Libraries
+from pyspark.sql.functions import current_date, expr
 
--- MAGIC %python
--- MAGIC #Libraries
--- MAGIC from pyspark.sql.functions import current_date, expr
--- MAGIC
+--------------------------------------------------------------
 
--- COMMAND ----------
+#Declaring the database and table names:
+database = 'bronze'
+table = 'instagram_bronze'
+path = '/Volumes/instagram_data/bronze/instagram_data/Instagram_Analytics.csv'
 
--- MAGIC %python
--- MAGIC # Declaring the database and table names:
--- MAGIC database = 'bronze'
--- MAGIC table = 'instagram_bronze'
--- MAGIC path = '/Volumes/instagram_data/bronze/instagram_data/Instagram_Analytics.csv'
 
--- COMMAND ----------
+#Adding variable path to the data frame
+df = spark.read.format("csv").option("header", True).load(path)
 
--- MAGIC %python
--- MAGIC #Adding variable path to the data frame
--- MAGIC df = spark.read.format("csv").option("header", True).load(path)
+-------------------------------
+df.display()
+------------------------------
 
--- COMMAND ----------
+# Adding two columns for better management and data governance
+df = df.withColumn("load_date", current_date())
+df = df.withColumn("load_date_time", expr("current_timestamp() - INTERVAL 3 HOURS"))
 
--- MAGIC %python
--- MAGIC df.display()
+df.display()
 
--- COMMAND ----------
-
--- MAGIC %python
--- MAGIC # Adding two columns for better management and data governance
--- MAGIC df = df.withColumn("load_date", current_date())
--- MAGIC df = df.withColumn("load_date_time", expr("current_timestamp() - INTERVAL 3 HOURS"))
-
--- COMMAND ----------
-
--- MAGIC %python
--- MAGIC df.display()
-
--- COMMAND ----------
-
--- MAGIC %python
--- MAGIC df.write \
--- MAGIC     .format('delta') \
--- MAGIC     .mode('overwrite') \
--- MAGIC     .option('mergeSchema', 'true') \
--- MAGIC     .option('overwriteSchema', 'true') \
--- MAGIC     .saveAsTable(f"instagram_data.{database}.{table}")
--- MAGIC print("Data loaded successfully!")
+df.write \
+format('delta') \
+.mode('overwrite') \
+.option('mergeSchema', 'true') \
+.option('overwriteSchema', 'true') \
+.saveAsTable(f"instagram_data.{database}.{table}")
+print("Data loaded successfully!")
