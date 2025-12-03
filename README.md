@@ -21,11 +21,16 @@ It processes raw data (Bronze), applies transformations and cleaning (Silver), a
 - Delta Lake  
 - Python 3.x  
 
-## Repository Structure  
-/notebooks_clean # Cleaned notebooks / scripts
-/data # Raw data samples (if any)
-/docs # Documentation, diagrams
-/README.md # This file
+## 📁 Repository Structure
+- **Instagram-Data-Engineering-Pipeline**
+  - `notebooks_clean/` — Cleaned notebooks / scripts
+    - `0.1 Bronze.py`
+    - `0.2 Silver.py`
+    - `0.3 Gold.py`
+  - `data/` — Instagram_Analytics.csv
+  - `README.md` — This file
+  - `LICENSE`
+
 
 
 ## Pipeline Overview  
@@ -33,7 +38,7 @@ It processes raw data (Bronze), applies transformations and cleaning (Silver), a
 - **Silver**: data cleaning, type casting, date/time parsing, standardization  
 - **Gold**: final analytics tables — ready for business insights  
 
-(Se quiser, adicione aqui um diagrama simple do fluxo.)
+Raw Data → Bronze (Delta Raw) → Silver (Cleaned) → Gold (Analytics)
 
 ## Setup & Run  
 1. Clone the repository  
@@ -48,5 +53,5 @@ It processes raw data (Bronze), applies transformations and cleaning (Silver), a
 - Schedule with orchestration (Airflow/Jobs)  
 - Extend with more social media metrics / dashboards  
 
-## Author / Contact  
-Sam — [LinkedIn / E-mail / etc]  
+## Author  
+Sam Mendes — https://www.linkedin.com/in/samuel-mendes1/  
